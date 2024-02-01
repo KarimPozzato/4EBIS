@@ -29,18 +29,18 @@ int main()
 
     if (pid == 0) // Processo figlio
     {
-        int array[dim]; //possiamio dichiarare un array per il padre e per il figlio
+        int arrayFiglio[dim]; //possiamio dichiarare un array per il padre e per il figlio
         printf("\nSono il figlio, il mio pid è: %d, mio padre ha pid: %d\n", getpid(), getppid());
 
         for (int i = 0; i < dim; i++)
         {
             printf("\nInserire un numero:\n");
-            scanf("%d", &array[i]);
+            scanf("%d", &arrayFiglio[i]);
         }
 
         close(fd[0]); //chiudiamo la read
 
-        write(fd[1], array, sizeof(int)*dim); // utilizzare sizeof per scrivere l'intero array
+        write(fd[1], arrayFiglio, sizeof(int)*dim); // utilizzare sizeof per scrivere l'intero array
         close(fd[1]);
         printf("\nInviato array al padre\n");
 
@@ -50,7 +50,7 @@ int main()
     {
         wait(NULL); // Attendiamo il completamento del processo figlio
 
-        int array[dim]; //array creato per il padres
+        int arrayPadre[dim]; //array creato per il padres
 
         printf("\nSono il padre, il mio pid è: %d, mio figlio ha pid: %d\n", getpid(), pid);
         printf("\nInserire un numero con il quale moltiplicare l'array.\n");
@@ -58,11 +58,11 @@ int main()
 
         close(fd[1]); //chiudiamo la write
 
-        read(fd[0], array, sizeof(int)*dim); // utilizzare sizeof per leggere l'intero array
+        read(fd[0], arrayPadre, sizeof(int)*dim); // utilizzare sizeof per leggere l'intero array
 
         for (int i = 0; i < dim; i++)
         {
-            printf("\nNumero %d: %d\n", i + 1, array[i] * richiesta);
+            printf("\nNumero %d: %d\n", i + 1, arrayPadre[i] * richiesta);
         }
 
         close(fd[0]);
