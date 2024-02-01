@@ -38,9 +38,9 @@ int main()
             scanf("%d", &array[i]);
         }
 
-        close(fd[0]);
+        close(fd[0]); //chiudiamo la read
 
-        write(fd[1], array, sizeof(array)); // utilizzare sizeof per scrivere l'intero array
+        write(fd[1], array, sizeof(int)*dim); // utilizzare sizeof per scrivere l'intero array
         close(fd[1]);
         printf("\nInviato array al padre\n");
 
@@ -56,9 +56,9 @@ int main()
         printf("\nInserire un numero con il quale moltiplicare l'array.\n");
         scanf("%d", &richiesta);
 
-        close(fd[1]);
+        close(fd[1]); //chiudiamo la write
 
-        read(fd[0], array, sizeof(array)); // utilizzare sizeof per leggere l'intero array
+        read(fd[0], array, sizeof(int)*dim); // utilizzare sizeof per leggere l'intero array
 
         for (int i = 0; i < dim; i++)
         {
