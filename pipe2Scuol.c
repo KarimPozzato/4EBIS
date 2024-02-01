@@ -12,6 +12,7 @@ int main()
     //int array[dim]; //creando l'array qui sia il padre che il figlio vedono un array
     int fd[2];
     int richiesta; // numero con il quale moltiplicheremo l'array
+    int status;
 
     if (pipe(fd) == -1) // creiamo la pipe prima della fork
     {
@@ -48,7 +49,7 @@ int main()
     }
     else // Processo padre
     {
-        wait(NULL); // Attendiamo il completamento del processo figlio
+        wait(&status); // Attendiamo il completamento del processo figlio perchè la read e la write sono già sincronizzate.
 
         int arrayPadre[dim]; //array creato per il padres
 
